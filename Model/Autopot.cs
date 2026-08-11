@@ -19,6 +19,10 @@ namespace _4RTools.Model
         public int hpPercent { get; set; }
         public Key spKey { get; set; }
         public int spPercent { get; set; }
+        // --- ADICIONE ESTAS DUAS LINHAS ABAIXO ---
+        public Key healSkillKey { get; set; }
+        public int healSkillPercent { get; set; }
+        // ----------------------------------------
         public int delay { get; set; } = 15;
         public int delayYgg { get; set; } = 50;
 
@@ -65,7 +69,21 @@ namespace _4RTools.Model
                 return 0; // Pula a cura e recomeça o ciclo
             }
             // --- FIM DA NOSSA MODIFICAÇÃO ---
+private int AutopotThreadExecution(Client roClient, int hpPotCount)
+        {
+            // --- INÍCIO DA NOSSA NOVA AUTOCURA POR SKILL ---
+            if (healSkillPercent > 0 && healSkillKey != Key.None && roClient.IsHpBelow(healSkillPercent))
+            {
+                SelfSkillTarget.CastOnSelf(healSkillKey);
+                Thread.Sleep(300); // Um pequeno delay para evitar conflito com poções
+            }
+            // --- FIM DA NOSSA NOVA AUTOCURA ---
 
+            // check hp first
+            if (roClient.IsHpBelow(hpPercent))
+            {
+                pot(this.hpKey);
+...
             // check hp first
             if (roClient.IsHpBelow(hpPercent))
             {
