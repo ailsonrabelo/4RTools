@@ -58,6 +58,17 @@ namespace _4RTools.Model
 
         private int AutopotThreadExecution(Client roClient, int hpPotCount)
         {
+            // --- INÍCIO DA NOSSA MODIFICAÇÃO ---
+            if (_4RTools.Forms.Container.PausarNaCidade)
+            {
+                Thread.Sleep(1000); // Aguarda 1 segundo
+                return 0; // Pula a cura e recomeça o ciclo
+            }
+            // --- FIM DA NOSSA MODIFICAÇÃO ---
+
+            // check hp first
+            if (roClient.IsHpBelow(hpPercent))
+            {
             // check hp first
             if (roClient.IsHpBelow(hpPercent))
             {
