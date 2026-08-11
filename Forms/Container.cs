@@ -10,7 +10,7 @@ namespace _4RTools.Forms
 {
     public partial class Container : Form, IObserver
     {
-
+        public static bool PausarNaCidade = false;
         private Subject subject = new Subject();
         private string currentProfile;
         public Container()
@@ -19,7 +19,18 @@ namespace _4RTools.Forms
 
             InitializeComponent();
             this.Text = AppConfig.Name + " - " + AppConfig.Version; // Window title
-
+            this.subject.Attach(this); // Essa linha que você mostrou
+            
+            // Início da Caixinha da Cidade
+            CheckBox chkCidade = new CheckBox();
+            chkCidade.Text = "Pausar na Cidade";
+            chkCidade.Location = new System.Drawing.Point(10, 10);
+            chkCidade.AutoSize = true;
+            chkCidade.BringToFront();
+            chkCidade.CheckedChanged += (s, e) => { PausarNaCidade = chkCidade.Checked; }; 
+            this.Controls.Add(chkCidade);
+            // Fim da Caixinha da Cidade
+            
             //Container Configuration
             this.IsMdiContainer = true;
             SetBackGroundColorOfMDIForm();
